@@ -1,0 +1,16 @@
+apiVersion: v2
+name: fibonacci
+description: A Helm chart for Kubernetes deployment of the Fibonacci service
+type: application
+version: 1.0.0
+appVersion: "1.0.0"
+home: https://github.com/ami-fl2/gt-pim
+sources:
+  - https://github.com/ami-fl2/gt-pim
+maintainers:
+  - name: Ami
+    email: ami@example.com
+keywords:
+  - fibonacci
+  - service
+  - api

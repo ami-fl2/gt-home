@@ -1,0 +1,70 @@
+version: 2
+project_name: fibs
+
+builds:
+  - id: fibs
+    dir: ./go
+    env: [CGO_ENABLED=0]
+    goos:
+      - linux
+      - windows
+      - darwin
+    goarch:
+      - amd64
+      - arm64
+
+archives:
+  - name_template: '{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}'
+
+dockers:
+  - dockerfile: go/Dockerfile.goreleaser
+    use: buildx
+    goos: linux
+    goarch: amd64
+    image_templates:
+      - '{{ .Env.REGISTRY }}/{{ .ProjectName }}:{{ .Version }}-amd64'
+      - '{{ .Env.REGISTRY }}/{{ .ProjectName }}:latest-amd64'
+    build_flag_templates:
+      - "--pull"
+      - "--platform=linux/amd64"
+
+  - dockerfile: go/Dockerfile.goreleaser
+    use: buildx
+    goos: linux
+    goarch: arm64
+    image_templates:
+      - '{{ .Env.REGISTRY }}/{{ .ProjectName }}:{{ .Version }}-arm64'
+      - '{{ .Env.REGISTRY }}/{{ .ProjectName }}:latest-arm64'
+    build_flag_templates:
+      - "--pull"
+      - "--platform=linux/arm64/v8"
+
+docker_manifests:
+  - name_template: '{{ .Env.REGISTRY }}/{{ .ProjectName }}:{{ .Version }}'
+    image_templates:
+      - '{{ .Env.REGISTRY }}/{{ .ProjectName }}:{{ .Version }}-amd64'
+      - '{{ .Env.REGISTRY }}/{{ .ProjectName }}:{{ .Version }}-arm64'
+
+  - name_template: '{{ .Env.REGISTRY }}/{{ .ProjectName }}:latest'
+    image_templates:
+      - '{{ .Env.REGISTRY }}/{{ .ProjectName }}:latest-amd64'
+      - '{{ .Env.REGISTRY }}/{{ .ProjectName }}:latest-arm64'
+
+changelog:
+  sort: asc
+  filters:
+    exclude:
+      - '^docs:'
+      - '^test:'
+      - '^ci:'
+      - Merge pull request
+      - Merge branch
+
+release:
+  make_latest: true
+  header: |
+    ## Fibonacci Service
+  name_template: "{{.ProjectName}}-v{{.Version}}"
+
+git:
+  tag_sort: -version:refname

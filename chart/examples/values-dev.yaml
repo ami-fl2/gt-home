@@ -1,0 +1,34 @@
+---
+# Example custom values for Development environment
+# Usage: helm install fibonacci ./chart -f examples/values-dev.yaml -n fibonacci
+
+replicaCount: 1
+
+image:
+  repository: ghcr.io/ami-fl2/fibs
+  pullPolicy: Always  # Always pull in dev for latest changes
+  tag: "latest"
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 128Mi
+  limits:
+    memory: 256Mi
+
+autoscaling:
+  enabled: false  # Disabled in dev for simplicity
+
+pdb:
+  enabled: false  # Disabled in dev, not needed for single replica
+
+healthChecks:
+  liveness:
+    initialDelaySeconds: 30  # Longer delay for debugging
+    periodSeconds: 30
+  readiness:
+    initialDelaySeconds: 10
+    periodSeconds: 10
+
+service:
+  type: LoadBalancer  # Use LoadBalancer in dev for easy access

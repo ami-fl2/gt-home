@@ -1,0 +1,5 @@
+# use only for go releaser
+FROM alpine
+COPY fibs /usr/bin/fibs
+USER 65534
+CMD ["fibs"]
