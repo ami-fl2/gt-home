@@ -1,6 +1,6 @@
 ---
 # Example custom values for Development environment
-# Usage: helm install fibonacci ./chart -f examples/values-dev.yaml -n fibonacci
+# Usage: helm install fibonacci ./chart -f value-files/values-dev.yaml -n fibonacci
 
 replicaCount: 1
 
@@ -14,6 +14,7 @@ resources:
     cpu: 100m
     memory: 128Mi
   limits:
+    cpu: 250m
     memory: 256Mi
 
 autoscaling:
@@ -30,5 +31,12 @@ healthChecks:
     initialDelaySeconds: 10
     periodSeconds: 10
 
+securityContext:
+  allowPrivilegeEscalation: false
+  capabilities:
+    drop:
+      - ALL
+  readOnlyRootFilesystem: false  # Allow writing logs in dev
+
 service:
-  type: LoadBalancer  # Use LoadBalancer in dev for easy access
+  type: ClusterIP  # Use ClusterIP with port-forward in dev

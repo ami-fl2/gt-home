@@ -76,5 +76,8 @@ make integration
 or run separate commands
 ```bash
 make kind-create          
-make helm-install 
+make helm-install
+make port-forward
+
+curl "http://localhost:8000/?n=10" 
 ```
