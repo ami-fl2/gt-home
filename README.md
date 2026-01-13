@@ -56,7 +56,11 @@ Request the first 10 Fibonacci numbers:
 ```bash
 curl "http://localhost:8000/?n=10"
 
-## Local cluster with Kind (Makefile)
+
+### Release via Github Actions
+To release a new version of the service, run the workflow manually from the Actions tab and specify the new version number (semver)
+
+### Local cluster with Kind (Makefile)
 
 use the provided Makefile to create a local Kubernetes cluster with Kind and deploy the Fibonacci service.
 
