@@ -60,6 +60,10 @@ curl "http://localhost:8000/?n=10"
 ### Release via Github Actions
 To release a new version of the service, run the workflow manually from the Actions tab and specify the new version number (semver)
 
+### Artifacts
+Artifacts are published to Github Releases
+Docker image is published to Github Container Registry
+
 ### Local cluster with Kind (Makefile)
 
 use the provided Makefile to create a local Kubernetes cluster with Kind and deploy the Fibonacci service.
